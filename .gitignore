@@ -1,0 +1,5 @@
+# armor.csv files
+*.csv
+
+# Experimental work directory
+/ignore
