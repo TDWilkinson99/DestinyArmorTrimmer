@@ -280,7 +280,7 @@ print(str(len(leg_armor)) + ' theoretical leg_armor')
 
 print('\n>> Running through permutations...')
 
-winning_candidates = []
+winning_candidate_ids = []
 
 def FindBestArmor(armorType):
     permutationList = permutations(['stat_base_mobility', 'stat_base_resilience', 'stat_base_recovery', 'stat_base_discipline', 'stat_base_intellect', 'stat_base_strength']) 
@@ -325,8 +325,8 @@ def FindBestArmor(armorType):
                                             ))
         #endregion
 
-        if sorted_list[0] not in winning_candidates:
-            winning_candidates.append(sorted_list[0])
+        if sorted_list[0]['id'] not in winning_candidate_ids:
+            winning_candidate_ids.append(sorted_list[0]['id'])
             continue
 
 FindBestArmor(helmet)
@@ -336,7 +336,8 @@ FindBestArmor(leg_armor)
 
 trimmed_item_ids = []
 for item in filteredItems:
-    if item not in winning_candidates:
+    # FIXED: [v1.0.1] - [Only check if item id is a winning candidate, not the whole item] - Artifice armor being deleted if at least one of the six theoretical copies fails a permutation leaderboard test
+    if item['id'] not in winning_candidate_ids:
         if item['id'] not in trimmed_item_ids:
             trimmed_item_ids.append(item['id'])
             trimmedItems.append(item)
@@ -373,10 +374,14 @@ for item in trimmedItems:
 
 # ---- Changelog ----
 
+# -- [v1.0.1]: --
+# > 'Artifice armor permutation fix'
+# > FIXED: Only check if item *id* is a winning candidate, not the whole item - (Artifice armor being deleted if at least one of the six theoretical copies fails a permutation leaderboard test)
+
 # -- [v1.0.0]: --
 # > NEW: Initial release
         
 # --------
 
 #written in a day by @reach
-#v1.0.0
+#v1.0.1
